@@ -1,15 +1,19 @@
 package org.easyit.dictmaker;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.easyit.dictmaker.component.BranchCutter;
-import org.easyit.dictmaker.component.DictCreator;
 import org.easyit.dictmaker.component.ExampleRender;
 import org.easyit.dictmaker.component.FileWriter;
+import org.easyit.dictmaker.component.LocalDictCreator;
+import org.easyit.dictmaker.component.QwertyDictCreator;
 import org.easyit.dictmaker.component.WordChanger;
 
 public class Maker {
@@ -78,7 +82,7 @@ public class Maker {
         int lastIndex = textPath.lastIndexOf(".");
         String outputName = textPath.substring(textPath.lastIndexOf("/") + 1, lastIndex) + ".json";
         // 构造一个字典全集
-        Map<String, WordCard> dict = DictCreator.create(qwertyHome);
+        Map<String, WordCard> dict = QwertyDictCreator.create(qwertyHome);
         // 将文本转换为字典子集
         List<WordCard> allDict = txt2dict(textPath, dict);
         // 过滤剪枝
@@ -89,6 +93,40 @@ public class Maker {
         String outputDir = qwertyHome + "/public/dicts/";
         FileWriter.write2file(outputDir, outputName, renderedDict);
         return outputDir + outputName + "(字数:" + renderedDict.size() + " )";
+    }
+
+    public static void makeDictLocally() throws IOException {
+
+        final String dictDir = "src/main/resources/novels/";
+
+        List<String> targetDictPath = Files.walk(Paths.get(dictDir))
+                                           .filter(Files::isRegularFile)    // 过滤掉目录
+                                           .map(Path::toString)             // 转换为字符串路径
+                                           .collect(Collectors.toList());
+
+        for (final String textPath : targetDictPath) {
+            makeDictLocally(textPath);
+        }
+    }
+
+    public static void makeDictLocally(String textPath) {
+
+        int lastIndex = textPath.lastIndexOf(".");
+
+        // 构造一个字典全集
+        Map<String, WordCard> dict = LocalDictCreator.create();
+        // 将文本转换为字典子集
+        List<WordCard> allDict = txt2dict(textPath, dict);
+        // 过滤剪枝
+        List<WordCard> subDict = BranchCutter.cut(allDict);
+        // 渲染 Example
+        List<WordCard> renderedDict = ExampleRender.render(subDict);
+        // 写入文本
+        String outputDir = "./output/";
+        String outputName = textPath.substring(
+            textPath.lastIndexOf("/") + 1, lastIndex) + "_" + renderedDict.size() + ".json";
+
+        FileWriter.write2file(outputDir, outputName, renderedDict);
     }
 
 }

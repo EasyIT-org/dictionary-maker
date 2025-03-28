@@ -15,6 +15,14 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.0</version> <!-- 使用最新版本 -->
+            <scope>test</scope>
+        </dependency>
+
         <!-- 在 pom.xml 的 dependencies 中添加 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
