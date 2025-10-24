@@ -41,6 +41,7 @@ src/main/resources/novels/*
 !src/main/resources/novels/1984.txt
 !src/main/resources/novels/A\ Tale\ of\ Two\ Cities.txt
 output/
+scripts/__pycache__/
 
 ### Mac OS ###
 .DS_Store
