@@ -32,6 +32,25 @@ public class LocalDictCreator {
 
     }
 
+    public static Map<String, Map<String, WordCard>> createUnMerged() {
+
+        try {
+            final String dictDir = "src/main/resources/dicts/";
+
+            List<String> targetDictPath = Files.walk(Paths.get(dictDir))
+                                               .filter(Files::isRegularFile)    // 过滤掉目录
+                                               .map(path -> path.getFileName().toString()) // 提取文件名
+                                               .collect(Collectors.toList());
+
+            Map<String, Map<String, WordCard>> enFileWord = processFolder(dictDir, targetDictPath);
+            return enFileWord;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void main(String[] args) {
         Map<String, WordCard> stringWordCardMap = LocalDictCreator.create();
         System.out.println(stringWordCardMap.size());

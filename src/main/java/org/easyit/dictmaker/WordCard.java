@@ -12,6 +12,7 @@ public class WordCard {
     private String pron;
     private String example;
     private transient boolean skip = true;
+    private transient String dict;
 
     public WordCard(String name) {
         this.name = name;
@@ -22,6 +23,14 @@ public class WordCard {
     }
 
     public WordCard() {
+    }
+
+    public String getDict() {
+        return dict;
+    }
+
+    public void setDict(final String dict) {
+        this.dict = dict;
     }
 
     public boolean isSkip() {
@@ -62,7 +71,10 @@ public class WordCard {
     }
 
     public void setUsphone(String usphone) {
-        this.usphone = usphone;
+        if (usphone == null) {
+            return;
+        }
+        this.usphone = usphone.replace('\'',(char)712).replace("/", "").replace("[", "").replace("]", "").trim();
     }
 
     public String getUkphone() {
@@ -70,7 +82,10 @@ public class WordCard {
     }
 
     public void setUkphone(String ukphone) {
-        this.ukphone = ukphone;
+        if (usphone == null) {
+            return;
+        }
+        this.ukphone = ukphone.replace('\'',(char)712).replace("/", "").replace("[", "").replace("]", "").trim();
     }
 
     public String getExample() {

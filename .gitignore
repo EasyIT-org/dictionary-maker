@@ -31,8 +31,12 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
 ### VS Code ###
 .vscode/
+
+### Project Artifacts ###
+src/main/resources/pdfs/
 
 ### Mac OS ###
 .DS_Store
