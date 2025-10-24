@@ -37,6 +37,10 @@ build/
 
 ### Project Artifacts ###
 src/main/resources/pdfs/
+src/main/resources/novels/*
+!src/main/resources/novels/1984.txt
+!src/main/resources/novels/A\ Tale\ of\ Two\ Cities.txt
+output/
 
 ### Mac OS ###
 .DS_Store

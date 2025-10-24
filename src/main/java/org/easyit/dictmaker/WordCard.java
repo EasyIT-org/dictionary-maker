@@ -82,7 +82,8 @@ public class WordCard {
     }
 
     public void setUkphone(String ukphone) {
-        if (usphone == null) {
+        if (ukphone == null) {
+            this.ukphone = "";
             return;
         }
         this.ukphone = ukphone.replace('\'',(char)712).replace("/", "").replace("[", "").replace("]", "").trim();
@@ -116,4 +117,3 @@ public class WordCard {
             '}';
     }
 }
-
